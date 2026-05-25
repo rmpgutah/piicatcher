@@ -1,0 +1,31 @@
+[package]
+name = "piicatcher-desktop"
+version = "0.1.0"
+description = "Desktop GUI for PIICatcher"
+authors = ["rmpgutah"]
+license = "Apache-2.0"
+edition = "2021"
+rust-version = "1.77"
+
+[lib]
+name = "piicatcher_desktop_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-dialog = "2"
+tauri-plugin-shell = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "1"
+chrono = { version = "0.4", features = ["serde"] }
+log = "0.4"
+which = "6"
+tokio = { version = "1", features = ["sync"] }
+
+[features]
+# this feature is used for production builds or when `devUrl` points to a path
+custom-protocol = ["tauri/custom-protocol"]
