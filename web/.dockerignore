@@ -1,0 +1,16 @@
+# Avoid sending node_modules, virtualenvs, build artifacts, and the git tree
+# to the docker build context. Without this, `docker build` would copy the
+# entire repo + its node_modules into the image layer.
+**/node_modules
+**/dist
+**/.venv
+**/__pycache__
+**/.pytest_cache
+**/target
+.git
+.github
+.claude
+desktop
+tests
+docs
+*.log

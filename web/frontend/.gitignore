@@ -1,0 +1,10 @@
+# Override the root .gitignore's Python `lib/` pattern — we have a real source
+# dir at src/lib/ that needs to be tracked.
+!src/lib/
+!src/lib/**
+
+node_modules/
+dist/
+.vite/
+*.log
+.DS_Store
