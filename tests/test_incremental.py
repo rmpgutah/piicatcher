@@ -276,7 +276,7 @@ sqlite_all = {
                 {
                     "columns": [
                         {
-                            "data_type": "text",
+                            "data_type": "TEXT",
                             "name": "ssn",
                             "pii_plugin": "ColumnNameRegexDetector",
                             "pii_type": "SSN",
@@ -526,7 +526,7 @@ sqlite_one = {
                 {
                     "columns": [
                         {
-                            "data_type": "text",
+                            "data_type": "TEXT",
                             "name": "ssn",
                             "pii_plugin": "ColumnNameRegexDetector",
                             "pii_type": "SSN",
