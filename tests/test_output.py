@@ -223,7 +223,7 @@ sqlite_output_all = {
                 {
                     "columns": [
                         {
-                            "data_type": "int",
+                            "data_type": "INT",
                             "name": "id",
                             "pii_plugin": None,
                             "pii_type": None,
