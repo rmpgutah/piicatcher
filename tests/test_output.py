@@ -185,14 +185,14 @@ sqlite_output_all = {
                 {
                     "columns": [
                         {
-                            "data_type": "text",
+                            "data_type": "TEXT",
                             "name": "name",
                             "pii_type": "Person",
                             "pii_plugin": "ColumnNameRegexDetector",
                             "sort_order": 0,
                         },
                         {
-                            "data_type": "text",
+                            "data_type": "TEXT",
                             "name": "state",
                             "pii_plugin": "ColumnNameRegexDetector",
                             "pii_type": "Address",
@@ -204,14 +204,14 @@ sqlite_output_all = {
                 {
                     "columns": [
                         {
-                            "data_type": "text",
+                            "data_type": "TEXT",
                             "name": "a",
                             "pii_plugin": None,
                             "pii_type": None,
                             "sort_order": 0,
                         },
                         {
-                            "data_type": "text",
+                            "data_type": "TEXT",
                             "name": "b",
                             "pii_plugin": None,
                             "pii_type": None,
@@ -223,14 +223,14 @@ sqlite_output_all = {
                 {
                     "columns": [
                         {
-                            "data_type": "int",
+                            "data_type": "INT",
                             "name": "id",
                             "pii_plugin": None,
                             "pii_type": None,
                             "sort_order": 0,
                         },
                         {
-                            "data_type": "text",
+                            "data_type": "TEXT",
                             "name": "ssn",
                             "pii_plugin": "ColumnNameRegexDetector",
                             "pii_type": "SSN",
@@ -242,14 +242,14 @@ sqlite_output_all = {
                 {
                     "columns": [
                         {
-                            "data_type": "text",
+                            "data_type": "TEXT",
                             "name": "a",
                             "pii_plugin": None,
                             "pii_type": None,
                             "sort_order": 0,
                         },
                         {
-                            "data_type": "text",
+                            "data_type": "TEXT",
                             "name": "b",
                             "pii_plugin": None,
                             "pii_type": None,
@@ -373,14 +373,14 @@ sqlite_output_only = {
                 {
                     "columns": [
                         {
-                            "data_type": "text",
+                            "data_type": "TEXT",
                             "name": "name",
                             "pii_plugin": "ColumnNameRegexDetector",
                             "pii_type": "Person",
                             "sort_order": 0,
                         },
                         {
-                            "data_type": "text",
+                            "data_type": "TEXT",
                             "name": "state",
                             "pii_plugin": "ColumnNameRegexDetector",
                             "pii_type": "Address",
@@ -392,7 +392,7 @@ sqlite_output_only = {
                 {
                     "columns": [
                         {
-                            "data_type": "text",
+                            "data_type": "TEXT",
                             "name": "ssn",
                             "pii_plugin": "ColumnNameRegexDetector",
                             "pii_type": "SSN",

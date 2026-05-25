@@ -17,7 +17,9 @@ from dbcat.cli import (
     table_help_text,
 )
 from dbcat.generators import NoMatchesError
-from pythonjsonlogger import jsonlogger
+# Universal import that works on both python-json-logger 2.x and 3.x.
+# (`from pythonjsonlogger import jsonlogger` triggers a DeprecationWarning on 3.x.)
+from pythonjsonlogger.jsonlogger import JsonFormatter
 from tabulate import tabulate
 
 from piicatcher import __version__, __google_analytics_tid__
@@ -149,14 +151,14 @@ def cli(
 
     if log_scan:
         handler = logging.StreamHandler()
-        handler.setFormatter(jsonlogger.JsonFormatter())
+        handler.setFormatter(JsonFormatter())
         handler.setLevel(logging.INFO)
         scan_logger.addHandler(handler)
         LOGGER.debug("SCAN LOG setup")
 
     if log_data:
         handler = logging.StreamHandler()
-        handler.setFormatter(jsonlogger.JsonFormatter())
+        handler.setFormatter(JsonFormatter())
         handler.setLevel(logging.INFO)
         data_logger.addHandler(handler)
         LOGGER.debug("DATA LOG setup")
