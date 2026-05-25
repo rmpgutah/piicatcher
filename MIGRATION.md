@@ -6,8 +6,9 @@ upgrade — see the "Why not Python 3.11+" section below.
 
 ## TL;DR
 
-- Python 3.8 support **dropped** (Python 3.8 reached end-of-life in October 2024).
-- Python is now `>=3.9, <=3.10.8` (the upper bound is enforced by `dbcat`).
+- Python 3.8 support **dropped** (EOL October 2024).
+- Python 3.9 support **dropped** (EOL October 2025; Poetry 1.8.3 also uses `dataclass(slots=True)`, a Python 3.10+ syntax).
+- Python is now effectively `>=3.10, <=3.10.8` (the upper bound is enforced by `dbcat`). `pyproject.toml` still declares `>=3.9` to leave the door open for older Poetry users, but the CI matrix is 3.10.8 only.
 - Several direct dependencies bumped to current versions.
 - Dev tool stack (`black` + `flake8` + `isort`) replaced with `ruff`.
 - CI workflows updated to current action versions and a current runner image.
@@ -60,13 +61,13 @@ Other dev-dep bumps: `mypy ^1.13`, `pytest ^7.4`, `coverage ^7.6`, `pytest-cov ^
 
 `.github/workflows/ci.yml`, `docker-build.yml`, `publish.yml`:
 
-- Python matrix `['3.8', '3.9', '3.10.8']` → `['3.9', '3.10.8']`.
+- Python matrix `['3.8', '3.9', '3.10.8']` → `['3.10.8']` only (see TL;DR for the 3.9 drop rationale).
 - Runner `ubuntu-20.04` → `ubuntu-22.04` (20.04 reached EOL on GitHub-hosted runners in 2025).
 - `actions/checkout v3 → v4`, `actions/setup-python v4 → v5`, `codecov-action v3 → v5`.
 - `abatilo/actions-poetry v2 → v3` with `poetry-version: 1.8.3` (was `1.2.2`).
 - `docker/*-action` series bumped to current majors (`setup-buildx-action v3`, `login-action v3`, `setup-qemu-action v3`, `build-push-action v6`).
 - `mikepenz/release-changelog-builder-action v3.4.0 → v5`, `softprops/action-gh-release v1 → v2`.
-- Service container images updated: `postgres:13 → postgres:16`, `mariadb:10.11.4 → mariadb:10.11`.
+- Service container images updated: `postgres:13 → postgres:14`, `mariadb:10.11.4 → mariadb:10.11`. (Postgres 15 introduced a permission change on the `public` schema that breaks the existing test fixtures — bumping past 14 is out of scope for this PR; tracked separately.)
 - New CI step: `poetry run ruff check piicatcher tests`.
 
 ## Why not Python 3.11+?

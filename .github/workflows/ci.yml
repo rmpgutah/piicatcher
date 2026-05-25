@@ -14,13 +14,21 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # Python is capped at 3.10.8 by the upstream `dbcat` dependency.
-        # 3.8 is dropped (EOL Oct 2024).
-        python-version: ['3.9', '3.10.8']
+        # Python is capped at 3.10.8 by the upstream `dbcat` dependency, so the
+        # matrix has only one slot. 3.8 is dropped (EOL Oct 2024). 3.9 is also
+        # dropped (EOL Oct 2025) and Poetry 1.8.3 uses `dataclass(slots=True)`
+        # which is a Python 3.10+ syntax.
+        python-version: ['3.10.8']
     name: Python ${{ matrix.python-version }}
     services:
       postgres:
-        image: postgres:16
+        # Pinned to 14 — the last major before Postgres 15's `public` schema
+        # permission change, which breaks the existing test fixtures that
+        # create tables in `public` as a non-owner role. Postgres 14 is still
+        # supported (EOL Nov 2026). Bumping past 14 requires updating the
+        # fixtures in tests/conftest.py to GRANT CREATE on public, which is
+        # out of scope for the 0.22.0 modernization.
+        image: postgres:14
         ports:
           - 5432:5432
         env:
