@@ -1,0 +1,24 @@
+# Override the root .gitignore's Python-distribution `lib/` pattern — we have
+# a real source dir at desktop/src/lib/ that needs to be tracked.
+!src/lib/
+!src/lib/**
+
+node_modules/
+dist/
+.vite/
+
+# Tauri (Rust) build artifacts
+src-tauri/target/
+src-tauri/binaries/piicatcher*
+src-tauri/gen/
+
+# PyInstaller workdir for sidecar builds
+.pyinstaller-build/
+
+# Local env
+.env.local
+*.log
+
+# OS junk
+.DS_Store
+Thumbs.db

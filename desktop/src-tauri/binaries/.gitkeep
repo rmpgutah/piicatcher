@@ -1,0 +1,10 @@
+This directory holds the bundled piicatcher sidecar binary.
+
+Tauri expects the file `piicatcher-<target-triple>` (e.g.
+`piicatcher-aarch64-apple-darwin` on Apple Silicon, `piicatcher-x86_64-pc-windows-msvc.exe`
+on Windows). It is produced by `desktop/scripts/build-piicatcher-sidecar.sh`
+and gitignored — never commit a generated binary.
+
+For local development you don't need this file: the Rust shell falls back to
+`piicatcher` on PATH (or to `$PIICATCHER_BIN`). The sidecar is only required
+for production `tauri build` invocations.

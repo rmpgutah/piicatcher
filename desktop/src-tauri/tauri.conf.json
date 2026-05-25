@@ -1,0 +1,41 @@
+{
+  "$schema": "https://schema.tauri.app/config/2.0.0",
+  "productName": "PIICatcher",
+  "version": "0.1.0",
+  "identifier": "io.tokern.piicatcher.desktop",
+  "build": {
+    "beforeDevCommand": "pnpm dev",
+    "beforeBuildCommand": "pnpm build",
+    "devUrl": "http://localhost:1420",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "PIICatcher",
+        "width": 1100,
+        "height": 720,
+        "minWidth": 800,
+        "minHeight": 500,
+        "resizable": true,
+        "fullscreen": false
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "category": "DeveloperTool",
+    "shortDescription": "Find PII/PHI in your databases.",
+    "longDescription": "PIICatcher Desktop is a graphical front-end for the PIICatcher scanner. Register databases, run PII scans, and review findings without leaving your machine.",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png"
+    ]
+  },
+  "plugins": {}
+}

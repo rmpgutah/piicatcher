@@ -1,0 +1,11 @@
+{
+  "$schema": "https://schema.tauri.app/config/2.0.0/capabilities.json",
+  "identifier": "default",
+  "description": "Capabilities granted to the main window — file picker only. The piicatcher subprocess is spawned from Rust via std::process::Command, so no `shell:execute` permission is needed by the frontend.",
+  "windows": ["main"],
+  "permissions": [
+    "core:default",
+    "dialog:default",
+    "shell:default"
+  ]
+}
