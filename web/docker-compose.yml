@@ -1,0 +1,62 @@
+# Local-deploy compose for piicatcher-web.
+#
+#   cd web && docker compose up --build
+#   open http://localhost:8000
+#
+# Two services:
+#   - web      — the FastAPI + React app (single container, served on :8000)
+#   - catalog  — Postgres for piicatcher's catalog state (optional, default off)
+#
+# By default the web container uses a local SQLite catalog under the
+# `piicatcher-data` volume — zero-config and fine for single-user use. To use
+# Postgres instead, uncomment the `catalog` service and the env block in `web`.
+
+services:
+  web:
+    build:
+      context: ..              # build context is the repo root (Dockerfile reads from web/)
+      dockerfile: web/Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      # Persistent catalog state + a place to drop SQLite DBs you want to scan.
+      # Mount your own SQLite files under ./data/ on the host; the path you
+      # type into the UI is the path INSIDE the container.
+      - ./data:/var/lib/piicatcher-web
+    environment:
+      LOG_LEVEL: INFO
+      # Change this in production. It encrypts source passwords stored in the
+      # piicatcher catalog DB.
+      PIICATCHER_CATALOG_SECRET: change-me-in-production
+      #
+      # To use the postgres catalog backend (uncomment + start `catalog`):
+      # PIICATCHER_CATALOG_HOST: catalog
+      # PIICATCHER_CATALOG_PORT: 5432
+      # PIICATCHER_CATALOG_USER: piicatcher
+      # PIICATCHER_CATALOG_PASSWORD: piicatcher-password
+      # PIICATCHER_CATALOG_DB: piicatcher
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8000/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  # Optional Postgres-backed catalog. Uncomment + uncomment the env block in
+  # `web` to use. Default is the SQLite catalog inside the volume.
+  # catalog:
+  #   image: postgres:14
+  #   restart: unless-stopped
+  #   environment:
+  #     POSTGRES_USER: piicatcher
+  #     POSTGRES_PASSWORD: piicatcher-password
+  #     POSTGRES_DB: piicatcher
+  #   volumes:
+  #     - catalog-data:/var/lib/postgresql/data
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "pg_isready -U piicatcher"]
+  #     interval: 10s
+
+# volumes:
+#   catalog-data:
