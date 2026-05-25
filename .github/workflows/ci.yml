@@ -10,21 +10,19 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
-        python-version: ['3.8', '3.9', '3.10.8']
+        # Python is capped at 3.10.8 by the upstream `dbcat` dependency.
+        # 3.8 is dropped (EOL Oct 2024).
+        python-version: ['3.9', '3.10.8']
     name: Python ${{ matrix.python-version }}
-    # Service containers to run with `container-job`
     services:
-      # Label used to access the service container
       postgres:
-        # Docker Hub image
-        image: postgres:13
+        image: postgres:16
         ports:
           - 5432:5432
-        # Provide the password for postgres
         env:
           POSTGRES_USER: piiuser
           POSTGRES_PASSWORD: p11secret
@@ -35,7 +33,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
       mariadb:
-        image: mariadb:10.11.4
+        image: mariadb:10.11
         ports:
           - 3306:3306
         env:
@@ -45,23 +43,26 @@ jobs:
           MYSQL_ROOT_PASSWORD: r00tpassw0rd
         options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-python@v4
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install Python Poetry
-      uses: abatilo/actions-poetry@v2
+      uses: abatilo/actions-poetry@v3
       with:
-        poetry-version: 1.2.2
+        poetry-version: 1.8.3
     - name: View poetry version
       run: poetry --version
     - name: Install dependencies
-      run: |
-        python -m poetry install
+      run: poetry install
+    - name: Lint with ruff
+      run: poetry run ruff check piicatcher tests
     - name: Test with pytest
       run: |
-        python -m poetry run pytest --pg-host localhost --mysql-host localhost --junitxml=junit/test-results.xml --cov=piicatcher --cov-report=xml --cov-report=html tests/  
+        poetry run pytest --pg-host localhost --mysql-host localhost \
+          --junitxml=junit/test-results.xml \
+          --cov=piicatcher --cov-report=xml --cov-report=html tests/
     - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v5
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
