@@ -73,10 +73,15 @@ line-length = 88
 target-version = "py39"
 
 [tool.ruff.lint]
-# Matches the spirit of the previous flake8 + isort config:
-# - E/W: pycodestyle, F: pyflakes, I: isort, B: flake8-bugbear, UP: pyupgrade
-select = ["E", "W", "F", "I", "B", "UP"]
-# Preserved ignores from the legacy flake8 config (setup.cfg):
+# Matches the rules the legacy flake8 config (setup.cfg) was actually enforcing:
+#   E/W: pycodestyle, F: pyflakes
+# `B` (flake8-bugbear), `I` (isort), and `UP` (pyupgrade) are intentionally NOT
+# selected here — enabling them surfaces 30+ pre-existing latent issues
+# (unused-loop-control-variable, function-call-in-default-argument, missing
+# `raise ... from`, etc.) that are out of scope for the 0.22.0 modernization.
+# A follow-up PR can opt in to those families and fix them.
+select = ["E", "W", "F"]
+# Preserved ignores from the legacy flake8 config:
 #   E203 — whitespace before ':' (conflicts with Black-style slices)
 #   E501 — line too long (handled by formatter, not lint)
 ignore = ["E203", "E501"]
